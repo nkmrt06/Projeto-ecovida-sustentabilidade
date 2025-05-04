@@ -1,6 +1,7 @@
 # ♻ Eco-vida Sustentabilidade
 
-
+Eco-vida Sustentabilidade é um sistema desktop interativo desenvolvido com Python e CustomTkinter, com o objetivo de incentivar hábitos sustentáveis por meio de um registro diário de ações ecológicas. 
+A aplicação permite acompanhar seus impactos positivos no meio ambiente e receber recomendações personalizadas de melhorias.
 
 ---
 
