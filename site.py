@@ -1,5 +1,5 @@
 import streamlit as st
-# Configurações da página
+
 def mostrar_dicas_sustentaveis():
 
 
@@ -11,11 +11,11 @@ st.set_page_config(
     layout="centered"
 )
 
-    # Título principal
+    
 st.title("♻️ Dicas Sustentáveis do Eco-vida")
 st.markdown("Bem-vindo(a) ao seu guia de hábitos conscientes para um planeta mais saudável!")
 
-    # Divisão por categorias
+    
 tabs = st.tabs(["💧 Água", "⚡ Energia", "🚗 Transporte", "🗑️ Resíduos"])
 
 with tabs[0]:
