@@ -6,7 +6,7 @@ from sistema import Sistema
 import os
 from PIL import Image, ImageTk
 
-ctk.set_appearance_mode("light")  # "light", "dark", "system"
+ctk.set_appearance_mode("light")  
 ctk.set_default_color_theme("green")
 
 
