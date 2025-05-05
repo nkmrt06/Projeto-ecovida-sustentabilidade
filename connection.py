@@ -29,7 +29,7 @@ def registrar_usuario(nome, email, senha):
     
     cursor = conn.cursor()
     
-    # Verifica se o email já está cadastrado
+    
     cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
     if cursor.fetchone():
         conn.close()
@@ -37,7 +37,7 @@ def registrar_usuario(nome, email, senha):
     
     senha_criptografada = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
     
-    # Insere o novo usuário no banco de dados
+    
     cursor.execute("""
         INSERT INTO usuarios (nome, email, senha)
         VALUES (%s, %s, %s)
@@ -73,7 +73,7 @@ def registrar_habito(usuario_id, nome_habito, quantidade, unidade, categoria):
     try:
         cursor = conn.cursor()
         
-        # Verificar se o hábito já existe
+        
         cursor.execute("""
             SELECT id FROM habitos WHERE nome = %s AND unidade = %s AND categoria = %s
             """, (nome_habito, unidade, categoria))
@@ -82,7 +82,7 @@ def registrar_habito(usuario_id, nome_habito, quantidade, unidade, categoria):
         if habito:
             habito_id = habito[0]
         else:
-            # Criar novo hábito
+            
             cursor.execute("""
                 INSERT INTO habitos (nome, unidade, categoria)
                 VALUES (%s, %s, %s)
@@ -91,7 +91,7 @@ def registrar_habito(usuario_id, nome_habito, quantidade, unidade, categoria):
             cursor.execute("SELECT LAST_INSERT_ID()")
             habito_id = cursor.fetchone()[0]
 
-        # Registrar o uso do hábito
+        
         data = datetime.now().strftime("%Y-%m-%d")
         cursor.execute("""
             INSERT INTO registros (usuario_id, habito_id, quantidade, data_registro)
@@ -114,7 +114,7 @@ def calcular_pontuacao(usuario_id):
         
     try:
         cursor = conn.cursor()
-        # Verificar se existem registros para o usuário
+        
         cursor.execute("""
             SELECT COUNT(*) FROM registros WHERE usuario_id = %s
         """, (usuario_id,))
@@ -122,7 +122,7 @@ def calcular_pontuacao(usuario_id):
         
         if count == 0:
             conn.close()
-            return 0  # Retorna zero se não houver registros
+            return 0  
             
         cursor.execute("""
             SELECT h.categoria, h.nome, SUM(r.quantidade) as total
@@ -137,44 +137,44 @@ def calcular_pontuacao(usuario_id):
         pontuacao = 0
         # Pesos invertidos para premiar economia: quanto menor o consumo, maior a pontuação
         pesos = {
-            'água': 5.0,     # Economia de água tem peso alto
-            'energia': 4.0,  # Economia de energia tem peso alto 
-            'transporte': 3.0, # Menos transporte motorizado, melhor
-            'resíduos': 2.0   # Menos resíduos, melhor
+            'água': 5.0,     
+            'energia': 4.0,  
+            'transporte': 3.0, 
+            'resíduos': 2.0   
         }
         
         # Valores de referência (consumo médio por categoria)
         referencias = {
-            'água': 150.0,    # litros por dia (média de referência)
-            'energia': 10.0,  # kWh por dia
-            'transporte': 30.0, # km por dia
-            'resíduos': 2.0    # kg por dia
+            'água': 150.0,    
+            'energia': 10.0,  
+            'transporte': 30.0, 
+            'resíduos': 2.0    
         }
 
         for categoria, nome, quantidade in resultados:
             if quantidade is None:
-                continue  # Pula registros sem quantidade
+                continue 
                 
             try:
-                quantidade = float(quantidade)  # Garante que a quantidade seja um número
+                quantidade = float(quantidade)  
             except (ValueError, TypeError):
-                continue  # Pula se não for conversível para float
+                continue  
                 
             categoria = categoria.lower() if categoria else "outros"
             if categoria in pesos and categoria in referencias:
-                # Calcular pontuação invertida (menos consumo = mais pontos)
+                
                 if quantidade < referencias[categoria]:
-                    # Economia: quanto menor o consumo em relação à referência, maior a pontuação
+                    
                     economia = (referencias[categoria] - quantidade) / referencias[categoria]
                     pontos = economia * 100 * pesos[categoria]
                     pontuacao += pontos
                 else:
-                    # Penalização leve para consumo acima da referência
+                    
                     excesso = (quantidade - referencias[categoria]) / referencias[categoria]
-                    pontos = -excesso * 10 * pesos[categoria]  # Penalização mais suave
+                    pontos = -excesso * 10 * pesos[categoria]  
                     pontuacao += pontos
 
-        # Garantir que a pontuação mínima seja zero
+        
         return max(round(pontuacao, 2), 0)
         
     except Exception as e:
@@ -222,7 +222,7 @@ def grafico_habitos(usuario_id):
 
 def exportar_para_pdf(usuario_id):
     try:
-        # Obter dados do usuário
+        
         conn = conectar()
         if conn is None:
             return False
@@ -238,7 +238,7 @@ def exportar_para_pdf(usuario_id):
             
         nome_usuario, email_usuario = usuario
         
-        # Obter registros de hábitos do usuário
+        
         cursor.execute("""
             SELECT h.nome, h.categoria, h.unidade, r.quantidade, r.data_registro
             FROM registros r
@@ -253,11 +253,11 @@ def exportar_para_pdf(usuario_id):
             conn.close()
             return False
 
-        # Criar o PDF usando FPDF
+        
         pdf = FPDF()
         pdf.add_page()
         
-        # Título e informações do usuário
+        
         pdf.set_font("Arial", "B", 16)
         pdf.cell(0, 10, "Relatório de Sustentabilidade", ln=True, align="C")
         
@@ -289,13 +289,13 @@ def exportar_para_pdf(usuario_id):
                 print(f"Erro ao adicionar registro ao PDF: {e}")
                 continue
         
-        # Pontuação total
+        
         pdf.ln(10)
         pontuacao = calcular_pontuacao(usuario_id)
         pdf.set_font("Arial", "B", 14)
         pdf.cell(0, 10, f"Pontuação de Sustentabilidade: {pontuacao}", ln=True)
         
-        # Gerar dados para o gráfico
+        
         cursor.execute("""
             SELECT h.categoria, SUM(r.quantidade) as total
             FROM registros r
@@ -320,24 +320,24 @@ def exportar_para_pdf(usuario_id):
                 plt.xticks(rotation=45, ha='right')
                 plt.tight_layout()
                 
-                # Salvar gráfico como imagem temporária
+                
                 img_path = f"grafico_temp_{usuario_id}.png"
                 plt.savefig(img_path)
                 plt.close()
                 
-                # Adicionar o gráfico ao PDF
+                
                 pdf.ln(5)
                 pdf.cell(0, 10, "Gráfico de Consumo por Categoria:", ln=True)
                 pdf.image(img_path, x=20, y=None, w=170)
                 
-                # Remover a imagem temporária
+                
                 try:
                     os.remove(img_path)
                 except Exception as e:
                     print(f"Aviso: Não foi possível remover a imagem temporária: {e}")
             except Exception as e:
                 print(f"Erro ao criar gráfico: {e}")
-                # Continue mesmo sem o gráfico
+                
         
         # Salvar o PDF
         try:
@@ -368,9 +368,9 @@ def limpar_dados():
     
     try:
         cursor = conn.cursor()
-        # Primeiro apagar os registros para evitar violação de chave estrangeira
+        
         cursor.execute("DELETE FROM registros")
-        # Depois apagar os hábitos
+        
         cursor.execute("DELETE FROM habitos")
         conn.commit()
         conn.close()
