@@ -5,7 +5,7 @@ from login import Login
 from sistema import Sistema
 
 
-# janela principal
+
 class Register(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -74,7 +74,7 @@ class Register(ctk.CTk):
             widget.destroy()
 
     def abrir_login(self):
-        # Destroi a janela atual e abre a tela de login
+        
         self.destroy()
         login = Login()
         login.mainloop()
