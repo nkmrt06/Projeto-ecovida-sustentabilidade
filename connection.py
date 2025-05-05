@@ -341,7 +341,7 @@ def exportar_para_pdf(usuario_id):
         
         # Salvar o PDF
         try:
-            pdf_path = f"N:/Meus-trabalhos/Projetos/Projeto-ecovida-sustentabilidade/pdf_relatorios/relatorio_sustentabilidade_{usuario_id}.pdf"
+            pdf_path = f"N:/Meus-trabalhos/Projetos/Projeto-ecovida-sustentabilidade/relatorio_sustentabilidade_{usuario_id}.pdf"
             pdf.output(pdf_path)
 
             import os
