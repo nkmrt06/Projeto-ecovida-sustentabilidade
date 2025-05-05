@@ -42,7 +42,7 @@ class Main(ctk.CTk):
         self.button.grid(row=7, column=0, padx=20,pady=10,sticky="ew", columnspan=2)
 
     def abrir_register(self):
-        # Destroi a janela atual e abre a tela de login
+        
         self.destroy()
         register = Register()
         register.mainloop()
