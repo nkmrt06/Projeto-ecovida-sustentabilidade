@@ -19,7 +19,7 @@ from site import mostrar_dicas_sustentaveis
 class Sistema(ctk.CTk):
     def __init__(self, usuario_id):
         super().__init__()
-        self.usuario_id = usuario_id  # Garante que o ID do usuário seja armazenado
+        self.usuario_id = usuario_id 
 
         self.title("")
         self.iconbitmap("N:/Meus-trabalhos/Projetos/Projeto-ecovida-sustentabilidade/eco_icon.ico")
@@ -27,13 +27,13 @@ class Sistema(ctk.CTk):
         self.geometry("600x700")
         self.grid_columnconfigure((0, 1), weight=1)
 
-        # Título e cabeçalho
+        
         titulo = ctk.CTkLabel(self, text="♻ Eco-vida", font=("Arial", 24, "bold"))
         titulo.grid(row=0, column=0, columnspan=2, pady=10)
 
         ctk.CTkLabel(self, text="Sistema de Sustentabilidade", font=("Arial", 18)).grid(row=1, column=0, columnspan=2, pady=10)
 
-        # Formulário para registrar hábitos
+       
         frame_registro = ctk.CTkFrame(self)
         frame_registro.grid(row=2, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
         frame_registro.grid_columnconfigure(1, weight=1)
@@ -71,7 +71,7 @@ class Sistema(ctk.CTk):
         frame_botoes.grid(row=4, column=0, columnspan=2, padx=20, pady=10, sticky="ew")
         frame_botoes.grid_columnconfigure((0, 1), weight=1)
 
-        # Linha 1 de botões
+        
         ctk.CTkButton(
             frame_botoes, 
             text="Registrar Hábito", 
@@ -88,7 +88,7 @@ class Sistema(ctk.CTk):
             hover_color="#2D6A4F"
         ).grid(row=0, column=1, padx=10, pady=5, sticky="ew")
 
-        # Linha 2 de botões
+        
         ctk.CTkButton(
             frame_botoes, 
             text="📌 Ver Recomendação", 
@@ -105,7 +105,7 @@ class Sistema(ctk.CTk):
             hover_color="#2D6A4F"
         ).grid(row=1, column=1, padx=10, pady=5, sticky="ew")
 
-        # Linha 3 de botões
+       
         ctk.CTkButton(
             frame_botoes, 
             text="📄 Exportar PDF", 
@@ -139,7 +139,7 @@ class Sistema(ctk.CTk):
         ).grid(row=4, column=0, padx=10, pady=5, sticky="ew", columnspan=2)
 
 
-        # Status bar
+        
         self.status_bar = ctk.CTkLabel(self, text=" ", anchor="w", text_color="#6B7280", font=("Arial", 12))
         self.status_bar.grid(row=5, column=0, columnspan=2, padx=20, pady=(20, 10), sticky="ew")
 
@@ -223,7 +223,7 @@ class Sistema(ctk.CTk):
             self.status_bar.configure(text="Erro ao exportar PDF")
 
     def abrir_login(self):
-    # Importa apenas quando for necessário
+    
         from login import Login  
         self.destroy()
         login = Login()
@@ -231,10 +231,10 @@ class Sistema(ctk.CTk):
 
     def abrir_dicas(self):
         try:
-            # Caminho do script do Streamlit
+            
             site_path = r"N:/Meus-trabalhos/Projetos/Projeto-ecovida-sustentabilidade/site.py"
             
-            # Inicia o Streamlit em um processo separado
+            
             subprocess.Popen([sys.executable, "-m", "streamlit", "run", site_path])
 
         except Exception as e:
