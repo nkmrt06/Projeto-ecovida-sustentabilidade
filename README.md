@@ -26,3 +26,14 @@ A aplicação permite acompanhar seus impactos positivos no meio ambiente e rece
 - `SQLite3` – Banco de dados local
 - `Streamlit` – Interface web para dicas sustentáveis
 
+---
+
+## 🔧 **Instalação e Uso**
+
+### Pré-requisitos
+
+1. **Python** 3.10 ou superior
+2. Instalar as dependências necessárias com o comando:
+
+```bash
+pip install customtkinter matplotlib reportlab sqlite3 streamlit
