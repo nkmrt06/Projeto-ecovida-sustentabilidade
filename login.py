@@ -43,7 +43,7 @@ class Login(ctk.CTk):
         if usuario_id:
             messagebox.showinfo("Sucesso", "Login realizado com sucesso!")
             self.destroy()
-            sistema = Sistema(usuario_id)  # passe o ID para o sistema
+            sistema = Sistema(usuario_id)  
             sistema.mainloop()
         else:
             messagebox.showerror("Erro", "Credenciais inválidas.")
@@ -53,7 +53,7 @@ class Login(ctk.CTk):
             widget.destroy()
 
     def conectar_conta(self, usuario_id=None):
-        # Corrigido para aceitar um parâmetro usuario_id
+        
         self.destroy()
-        sistema = Sistema(usuario_id)  # Passa o ID do usuário para o sistema
+        sistema = Sistema(usuario_id) 
         sistema.mainloop()
